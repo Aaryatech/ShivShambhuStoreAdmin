@@ -1002,7 +1002,7 @@ body {
 	</script>
 	<script type="text/javascript">
 		function getInvoiceNo() {
-			alert("hii");
+			//alert("hii");
 			var date = $("#indent_date").val();
 			var catId = $("#ind_cat").val();
 			var typeId = $("#indent_type").val();
