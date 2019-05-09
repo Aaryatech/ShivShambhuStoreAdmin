@@ -48,14 +48,13 @@ import com.ats.shivstore.model.login.UserResponse;
 import com.ats.shivstore.model.po.GetPoHeader;
 import com.ats.shivstore.model.po.PoHeader;
 import com.ats.shivstore.model.user.LoginResUser;
- 
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	RestTemplate restTemp = new RestTemplate();
 
@@ -65,61 +64,64 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+
 		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+
+		model.addAttribute("serverTime", formattedDate);
+
 		return "login";
 	}
+
 	@RequestMapping(value = "/showStoreDashboard", method = RequestMethod.GET)
 	public ModelAndView showStoreDashboard(HttpServletRequest request, HttpServletResponse res) {
 		ModelAndView mav = new ModelAndView("home");
 
 		try {
-			
-				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
-                map.add("status", "0,1");
-				GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
-				List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
-				System.err.println(indentListRes.toString());
-				mav.addObject("indentListRes", indentListRes);
-				Category[] category = restTemp.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
-				List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
-              
-				StockHeader stockHeader = restTemp.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
-				
-				Date date = new Date();
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				 
-				String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
-				String toDate=sf.format(date);
-				
-				map = new LinkedMultiValueMap<String, Object>();
-				map.add("fromDate", fromDate);
-	 			map.add("toDate", toDate);
-	 			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
+			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+			map.add("status", "0,1");
+			GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
 
-				List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
-				System.err.println(lowReorderItemList.toString());
-				mav.addObject("lowReorderItemList", lowReorderItemList);
-				mav.addObject("categoryList", categoryList);
-				
-				Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
-				List<Type> typeList = new ArrayList<Type>(Arrays.asList(type)); 
-				mav.addObject("typeList", typeList);
-			
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-		
+			List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
+			System.err.println(indentListRes.toString());
+			mav.addObject("indentListRes", indentListRes);
+			Category[] category = restTemp.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
+			List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
+
+			StockHeader stockHeader = restTemp.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",
+					StockHeader.class);
+
+			Date date = new Date();
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+			String fromDate = stockHeader.getYear() + "-" + stockHeader.getMonth() + "-" + "01";
+			String toDate = sf.format(date);
+
+			map = new LinkedMultiValueMap<String, Object>();
+			map.add("fromDate", fromDate);
+			map.add("toDate", toDate);
+			GetCurrStockRol[] getCurrentStock = restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB",
+					map, GetCurrStockRol[].class);
+
+			List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
+			System.err.println(lowReorderItemList.toString());
+			mav.addObject("lowReorderItemList", lowReorderItemList);
+			mav.addObject("categoryList", categoryList);
+
+			Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
+			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
+			mav.addObject("typeList", typeList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return mav;
 	}
+
 	@RequestMapping("/loginProcess")
 	public ModelAndView helloWorld(HttpServletRequest request, HttpServletResponse res) throws IOException {
 
@@ -141,95 +143,103 @@ public class HomeController {
 			} else {
 
 				RestTemplate restTemplate = new RestTemplate();
-				MultiValueMap<String, Object>	map = new LinkedMultiValueMap<String, Object>();
-				/*UserResponse userObj = restTemplate.getForObject(
-						Constants.url+"/login?username=" + name + "&password=" + password,
-						UserResponse.class);*/
+				MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+				/*
+				 * UserResponse userObj = restTemplate.getForObject(
+				 * Constants.url+"/login?username=" + name + "&password=" + password,
+				 * UserResponse.class);
+				 */
 				map.add("usrMob", name);
 				map.add("userPass", password);
-				LoginResUser userObj = restTemplate.postForObject(Constants.url + "/UserMstController/loginUser", map, LoginResUser.class);
+				map.add("deptId", Constants.deptIdForStore);
+				LoginResUser userObj = restTemplate.postForObject(Constants.url + "/UserMstController/loginUser", map,
+						LoginResUser.class);
 
-				
-				 
-				String loginResponseMessage="";
+				String loginResponseMessage = "";
 
-				
-				if (userObj.isError()==false) {
-					
+				if (userObj.isError() == false) {
+
 					session.setAttribute("UserDetail", userObj);
-					LoginResUser userResponse =(LoginResUser) session.getAttribute("UserDetail");
+					LoginResUser userResponse = (LoginResUser) session.getAttribute("UserDetail");
 					session.setAttribute("userInfo", userResponse.getUser());
-					
+
 					mav = new ModelAndView("welcome");
 					session.setAttribute("userName", name);
-					
-					loginResponseMessage="Login Successful";
-					mav.addObject("loginResponseMessage",loginResponseMessage);
-					
-					
-				 map =new LinkedMultiValueMap<String, Object>();
-					int userId=userObj.getUser().getUserId();
+
+					loginResponseMessage = "Login Successful";
+					mav.addObject("loginResponseMessage", loginResponseMessage);
+
+					map = new LinkedMultiValueMap<String, Object>();
+					int userId = userObj.getUser().getUserId();
 					map.add("usrId", userId);
 					System.out.println("Before web service");
 					try {
-					 ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
-					};
-					ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(Constants.url + "getRoleJson",
-							HttpMethod.POST, new HttpEntity<>(map), typeRef);
-					
-					 List<ModuleJson> newModuleList = responseEntity.getBody();
-					
-					 //System.err.println("new Module List " +newModuleList.toString());
-					 
+						ParameterizedTypeReference<List<ModuleJson>> typeRef = new ParameterizedTypeReference<List<ModuleJson>>() {
+						};
+						ResponseEntity<List<ModuleJson>> responseEntity = restTemplate.exchange(
+								Constants.url + "getRoleJson", HttpMethod.POST, new HttpEntity<>(map), typeRef);
+
+						List<ModuleJson> newModuleList = responseEntity.getBody();
+
+						// System.err.println("new Module List " +newModuleList.toString());
+
 						session.setAttribute("newModuleList", newModuleList);
 						session.setAttribute("sessionModuleId", 0);
 						session.setAttribute("sessionSubModuleId", 0);
 
-				/*	Date date = new Date();*/
-					 map = new LinkedMultiValueMap<String, Object>();
-/*					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-*/					/*String fromDate = df.format(date);
-					String toDate = df.format(date);
-                   
-					map.add("fromDate", fromDate);
-					map.add("toDate",toDate);*/
-					/*map.add("status", "0,1");
-					GetIndents[] indentList = restTemp.postForObject(Constants.url + "/getIndentList", map, GetIndents[].class);
+						/* Date date = new Date(); */
+						map = new LinkedMultiValueMap<String, Object>();
+						/*
+						 * DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+						 */ /*
+							 * String fromDate = df.format(date); String toDate = df.format(date);
+							 * 
+							 * map.add("fromDate", fromDate); map.add("toDate",toDate);
+							 */
+						/*
+						 * map.add("status", "0,1"); GetIndents[] indentList =
+						 * restTemp.postForObject(Constants.url + "/getIndentList", map,
+						 * GetIndents[].class);
+						 * 
+						 * List<GetIndents> indentListRes = new
+						 * ArrayList<GetIndents>(Arrays.asList(indentList));
+						 * System.err.println(indentListRes.toString()); mav.addObject("indentListRes",
+						 * indentListRes);
+						 * 
+						 * StockHeader stockHeader = restTemp.getForObject(Constants.url +
+						 * "/getCurrentRunningMonthAndYear",StockHeader.class); Category[] category =
+						 * restTemp.getForObject(Constants.url + "/getAllCategoryByIsUsed",
+						 * Category[].class); List<Category> categoryList = new
+						 * ArrayList<Category>(Arrays.asList(category));
+						 * System.err.println("categoryList:  "+categoryList.toString());
+						 * 
+						 * Date date = new Date(); SimpleDateFormat sf = new
+						 * SimpleDateFormat("yyyy-MM-dd");
+						 * 
+						 * String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
+						 * String toDate=sf.format(date);
+						 * 
+						 * map = new LinkedMultiValueMap<String, Object>(); map.add("fromDate",
+						 * fromDate); map.add("toDate", toDate); GetCurrStockRol[] getCurrentStock
+						 * =restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map,
+						 * GetCurrStockRol[].class);
+						 * 
+						 * List<GetCurrStockRol> lowReorderItemList = new
+						 * ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
+						 * System.err.println(lowReorderItemList.toString());
+						 * mav.addObject("lowReorderItemList", lowReorderItemList);
+						 * mav.addObject("categoryList", categoryList);
+						 * 
+						 * 
+						 * 
+						 * Type[] type = restTemp.getForObject(Constants.url + "/getAlltype",
+						 * Type[].class); List<Type> typeList = new
+						 * ArrayList<Type>(Arrays.asList(type));
+						 * 
+						 * mav.addObject("typeList", typeList);
+						 */
 
-					List<GetIndents> indentListRes = new ArrayList<GetIndents>(Arrays.asList(indentList));
-					System.err.println(indentListRes.toString());
-					mav.addObject("indentListRes", indentListRes);
-					
-					StockHeader stockHeader = restTemp.getForObject(Constants.url + "/getCurrentRunningMonthAndYear",StockHeader.class);
-					Category[] category = restTemp.getForObject(Constants.url + "/getAllCategoryByIsUsed", Category[].class);
-					List<Category> categoryList = new ArrayList<Category>(Arrays.asList(category));
-                    System.err.println("categoryList:  "+categoryList.toString());
-					
-					Date date = new Date();
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-					 
-					String fromDate=stockHeader.getYear()+"-"+stockHeader.getMonth()+"-"+"01";
-					String toDate=sf.format(date);
-					
-					map = new LinkedMultiValueMap<String, Object>();
-					map.add("fromDate", fromDate);
-		 			map.add("toDate", toDate);
-		 			GetCurrStockRol[] getCurrentStock =restTemp.postForObject(Constants.url + "/getItemsLessThanROLForDashB", map, GetCurrStockRol[].class);
-
-					List<GetCurrStockRol> lowReorderItemList = new ArrayList<GetCurrStockRol>(Arrays.asList(getCurrentStock));
-					System.err.println(lowReorderItemList.toString());
-					mav.addObject("lowReorderItemList", lowReorderItemList);
-					mav.addObject("categoryList", categoryList);
-					
-					  
-					 
-						Type[] type = restTemp.getForObject(Constants.url + "/getAlltype", Type[].class);
-						List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
-						
-						mav.addObject("typeList", typeList);*/
-						
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					return mav;
@@ -240,7 +250,6 @@ public class HomeController {
 
 				}
 
-				
 			}
 		} catch (Exception e) {
 			System.out.println("HomeController Login API Excep:  " + e.getMessage());
@@ -251,42 +260,41 @@ public class HomeController {
 		return mav;
 
 	}
-	List<GetPoHeader> headerList;
-	@RequestMapping(value = "/getPoListRes", method = RequestMethod.GET)
-	public @ResponseBody List<GetPoHeader> getPoList(HttpServletRequest request,
-			HttpServletResponse response) {
 
-		 headerList = new ArrayList<GetPoHeader>();
+	List<GetPoHeader> headerList;
+
+	@RequestMapping(value = "/getPoListRes", method = RequestMethod.GET)
+	public @ResponseBody List<GetPoHeader> getPoList(HttpServletRequest request, HttpServletResponse response) {
+
+		headerList = new ArrayList<GetPoHeader>();
 		try {
-			int poType=Integer.parseInt(request.getParameter("poType"));
-			int status=Integer.parseInt(request.getParameter("status"));
-			
+			int poType = Integer.parseInt(request.getParameter("poType"));
+			int status = Integer.parseInt(request.getParameter("status"));
+
 			MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
 			map.add("poType", poType);
-			map.add("status",status);
-			headerList=restTemp.postForObject(Constants.url+"getPoHeaderDashList", map, List.class);
-	     
+			map.add("status", status);
+			headerList = restTemp.postForObject(Constants.url + "getPoHeaderDashList", map, List.class);
+
 			System.err.println(headerList.toString());
-		}
-		catch (Exception e) {
-			
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 		return headerList;
 	}
-	
-	
+
 	@RequestMapping(value = "/showAddMrn/{poType}/{vendorId}/{poId}/{poNo}", method = RequestMethod.GET)
-	public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response,@PathVariable int poType,
-			@PathVariable int vendorId,@PathVariable int poId,@PathVariable String poNo) {
+	public ModelAndView showAddMrn(HttpServletRequest request, HttpServletResponse response, @PathVariable int poType,
+			@PathVariable int vendorId, @PathVariable int poId, @PathVariable String poNo) {
 
 		ModelAndView model = null;
 		try {
-			
-			//poIdList = new String();
-			//poDetailList = new ArrayList<GetPODetail>();
 
-		//	poDetailList = null;
+			// poIdList = new String();
+			// poDetailList = new ArrayList<GetPODetail>();
+
+			// poDetailList = null;
 			model = new ModelAndView("mrn/showAddMrn");
 			RestTemplate rest = new RestTemplate();
 
@@ -294,18 +302,18 @@ public class HomeController {
 			List<Vendor> vendorList = new ArrayList<Vendor>(Arrays.asList(vendorRes));
 
 			model.addObject("vendorList", vendorList);
-			
-			model.addObject("poType",poType);
-			
-			model.addObject("vendorId",vendorId);
-			
-			model.addObject("poId",poId);
-			model.addObject("poNo",poNo);
-			
+
+			model.addObject("poType", poType);
+
+			model.addObject("vendorId", vendorId);
+
+			model.addObject("poId", poId);
+			model.addObject("poNo", poNo);
+
 			Type[] type = rest.getForObject(Constants.url + "/getAlltype", Type[].class);
 			List<Type> typeList = new ArrayList<Type>(Arrays.asList(type));
 			model.addObject("typeList", typeList);
-			
+
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = new Date();
 			model.addObject("date", dateFormat.format(date));
@@ -327,13 +335,14 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
+
 	@ExceptionHandler(LoginFailException.class)
 	public String redirectToLogin() {
 		System.out.println("HomeController Login Fail Excep:");
 
 		return "login";
 	}
-	
+
 	@RequestMapping(value = "/sessionTimeOut", method = RequestMethod.GET)
 	public String sessionTimeOut(HttpSession session) {
 		System.out.println("User Logout");
@@ -341,18 +350,19 @@ public class HomeController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/setSubModId", method = RequestMethod.GET)
-	public @ResponseBody void setSubModId(HttpServletRequest request,
-		HttpServletResponse response) {
-		int subModId=Integer.parseInt(request.getParameter("subModId"));
-		int modId=Integer.parseInt(request.getParameter("modId"));
-		/*System.out.println("subModId " + subModId);
-		System.out.println("modId " + modId);*/
+	public @ResponseBody void setSubModId(HttpServletRequest request, HttpServletResponse response) {
+		int subModId = Integer.parseInt(request.getParameter("subModId"));
+		int modId = Integer.parseInt(request.getParameter("modId"));
+		/*
+		 * System.out.println("subModId " + subModId); System.out.println("modId " +
+		 * modId);
+		 */
 		HttpSession session = request.getSession();
 		session.setAttribute("sessionModuleId", modId);
-		session.setAttribute("sessionSubModuleId",subModId);
-		 session.removeAttribute( "exportExcelList" );
+		session.setAttribute("sessionSubModuleId", subModId);
+		session.removeAttribute("exportExcelList");
 	}
-	
+
 }
