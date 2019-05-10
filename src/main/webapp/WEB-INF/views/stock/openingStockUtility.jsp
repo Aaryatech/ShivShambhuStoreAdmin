@@ -270,8 +270,8 @@ body {
 									<br> <br /> <input id="is_dev" type="hidden"
 										name="is_dev" value="0" /> <input id="is_monthly"
 										type="hidden" name="is_monthly" value="0" /> <input id="dept"
-										type="hidden" name="dept" value="0" /> <input id="sub_dept"
-										type="hidden" name="sub_dept" value="0" />
+										type="hidden" name="dept" value="1" /> <input id="sub_dept"
+										type="hidden" name="sub_dept" value="1" />
 								</div>
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">

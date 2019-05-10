@@ -574,7 +574,7 @@ $(document).ready(function() {
                     grpId : $(this).val(),
                     ajax : 'true'
                 }, function(data) {
-                alert("Item List by group id " +JSON.stringify(data));
+                //alert("Item List by group id " +JSON.stringify(data));
                     var len = data.length;
 
 					$('#item_name')
