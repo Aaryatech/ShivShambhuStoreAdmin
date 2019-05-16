@@ -259,20 +259,81 @@ body {
 									<label class="col-md-2">Select</label>
 									<div class="col-md-3">
 										<select name="indpomrn" id="indpomrn"
+											onchange="ShowDeatilsOfMrn(this.value)"
 											class="form-control chosen" required>
 
-											<option value="3" selected>MRN</option>
+											<option value="3">MRN</option>
 											<option value="2">PO</option>
-											<option value="1">INDENT</option>
+											<option value="1" selected>INDENT</option>
 
 										</select>
 									</div>
-									<br> <br /> <input id="is_dev" type="hidden"
-										name="is_dev" value="0" /> <input id="is_monthly"
-										type="hidden" name="is_monthly" value="0" /> <input id="dept"
-										type="hidden" name="dept" value="1" /> <input id="sub_dept"
-										type="hidden" name="sub_dept" value="1" />
 								</div>
+								<br> <br>
+
+								<div style="display: none;" id="onlyShowWhenMrn">
+
+									<div class="box-content">
+										<div class="col-md-2">Challan No</div>
+
+										<div class="col-md-3">
+											<input type="text" name="chalan_no" id="chalan_no"
+												class="form-control" placeholder="Chalan No"
+												data-rule-required="true" />
+										</div>
+										<div class="col-md-1 "></div>
+										<div class="col-md-2">Challan Date</div>
+										<div class="col-md-3">
+											<input class="form-control date-picker" id="chalan_date"
+												size="14" type="text" name="chalan_date" value="${date}"
+												required />
+										</div>
+
+									</div>
+									<br> <br>
+									<div class="box-content">
+										<div class="col-md-2">Bill No</div>
+
+										<div class="col-md-3">
+											<input type="text" name="bill_no" id="bill_no"
+												class="form-control" placeholder="Bill No"
+												data-rule-required="true" />
+										</div>
+										<div class="col-md-1 "></div>
+										<div class="col-md-2">Bill Date</div>
+										<div class="col-md-3">
+											<input class="form-control date-picker" id="bill_date"
+												size="14" type="text" name="bill_date" value="${date}"
+												required />
+										</div>
+
+									</div>
+									<br> <br>
+
+									<div class="box-content">
+										<label class="col-md-2">Transport </label>
+
+										<div class="col-md-3">
+											<input type="text" name="transport" id="transport"
+												class="form-control" placeholder="Transport"
+												data-rule-required="true" value="-" />
+										</div>
+										<div class="col-md-1 "></div>
+										<label class="col-md-2">Remark </label>
+
+										<div class="col-md-3">
+											<input type="text" name="lorry_remark" id="lorry_remark"
+												class="form-control" placeholder="Lorry Remark" value="NA"
+												data-rule-required="true" />
+										</div>
+									</div>
+								</div>
+								<br> <br /> <input id="is_dev" type="hidden" name="is_dev"
+									value="0" /> <input id="is_monthly" type="hidden"
+									name="is_monthly" value="0" /> <input id="dept" type="hidden"
+									name="dept" value="1" /> <input id="sub_dept" type="hidden"
+									name="sub_dept" value="1" />
+
 								<div class="row">
 									<div class="col-md-12" style="text-align: center">
 										<input class="btn btn-info" onclick="getItemcategorywise()"
@@ -1302,6 +1363,25 @@ body {
 												})
 
 							});
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		function ShowDeatilsOfMrn(indpomrn) {
+			//alert("hii");
+
+			if (indpomrn == 3) {
+				//alert("In MRN");
+				/* $("onlyShowWhenMrn").show(); */
+				document.getElementById("onlyShowWhenMrn").style.display = "block";
+
+			} else {
+				//alert("In PO?INDENT");
+
+				document.getElementById("onlyShowWhenMrn").style.display = "none";
+			}
+
 		}
 	</script>
 

@@ -10,26 +10,27 @@ body {
 }
 
 #overlay2 {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(101, 113, 119, 0.5);
-    z-index: 2;
-    cursor: pointer;
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(101, 113, 119, 0.5);
+	z-index: 2;
+	cursor: pointer;
 }
+
 #text2 {
-   position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 25px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: 25px;
+	color: white;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
 }
 
 /* The Modal (background) */
@@ -113,12 +114,12 @@ body {
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/tableSearch.css">
 <body onload="callToInvoice()">
-<div id="overlay2" >  <div id="text2"> Saving MRN....
-
-</div></div>
+	<div id="overlay2">
+		<div id="text2">Saving MRN....</div>
+	</div>
 	<%-- <jsp:include page="/WEB-INF/views/include/logout.jsp"></jsp:include> --%>
 
-<c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
+	<c:url var="exportExcelforMrn" value="/exportExcelforMrn" />
 	<c:url var="getPOHeaderList" value="/getPOHeaderList" />
 	<c:url var="getPODetailList" value="/getPODetailList" />
 	<c:url var="getInvoiceNo" value="/getInvoiceNo" />
@@ -154,7 +155,8 @@ body {
 					</h1>
 
 				</div>
-			</div> --><br>
+			</div> -->
+			<br>
 			<!-- END Page Title -->
 			<!-- BEGIN Main Content -->
 			<div class="row">
@@ -189,34 +191,34 @@ body {
 														<c:choose>
 
 															<c:when test="${poType!=0}">
-															
-															<c:forEach items="${typeList}" var="typeList"> 
-																<c:choose>
-																	<c:when test="${poType==typeList.typeId}">
-																		<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
-																	</c:when>
-																	<c:otherwise>
-																		<option value="${typeList.typeId}" disabled>${typeList.typeName}</option>
-																	</c:otherwise>
-																
-																</c:choose>
-																 
+
+																<c:forEach items="${typeList}" var="typeList">
+																	<c:choose>
+																		<c:when test="${poType==typeList.typeId}">
+																			<option value="${typeList.typeId}" selected>${typeList.typeName}</option>
+																		</c:when>
+																		<c:otherwise>
+																			<option value="${typeList.typeId}" disabled>${typeList.typeName}</option>
+																		</c:otherwise>
+
+																	</c:choose>
+
 																</c:forEach>
- 
+
 															</c:when>
 
 															<c:otherwise>
 																<option value="">Select Indent Type</option>
-																<c:forEach items="${typeList}" var="typeList"> 
-																<option value="${typeList.typeId}">${typeList.typeName}</option>
+																<c:forEach items="${typeList}" var="typeList">
+																	<option value="${typeList.typeId}">${typeList.typeName}</option>
 																</c:forEach>
 															</c:otherwise>
 
 														</c:choose>
 													</select>
 												</div>
-												</div>
-												
+											</div>
+
 
 											<div class="form-group">
 
@@ -235,7 +237,7 @@ body {
 														data-rule-required="true" />
 												</div>
 											</div>
-											
+
 											<div class="form-group">
 												<div class="col-md-2">Vendor</div>
 												<div class="col-md-10">
@@ -243,24 +245,27 @@ body {
 														class="form-control chosen" placeholder="Vendor"
 														data-rule-required="true">
 
-														<option value=""><c:out value="SELECT VENDOR"/></option>
+														<option value=""><c:out value="SELECT VENDOR" /></option>
 														<c:forEach items="${vendorList}" var="vendor"
 															varStatus="count">
 															<c:choose>
 																<c:when test="${vendorId !=0 }">
 																	<c:if test="${vendorId==vendor.vendorId}">
-																		<option selected value="${vendor.vendorId}"><c:out value="${vendor.vendorName}"/></option>
+																		<option selected value="${vendor.vendorId}"><c:out
+																				value="${vendor.vendorName}" /></option>
 																	</c:if>
 																</c:when>
 																<c:otherwise>
-																	<option value="${vendor.vendorId}"><c:out value="${vendor.vendorName}"/></option>
+																	<option value="${vendor.vendorId}"><c:out
+																			value="${vendor.vendorName}" /></option>
 																</c:otherwise>
 															</c:choose>
 														</c:forEach>
 													</select>
 												</div>
 
-											</div><!--end of formgroup  -->
+											</div>
+											<!--end of formgroup  -->
 											<div class="form-group">
 												<div class="col-md-2">Gate Entry No</div>
 
@@ -269,7 +274,7 @@ body {
 														class="form-control" placeholder="Gate Entry No"
 														data-rule-required="true" />
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">Gate Entry Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker"
@@ -285,7 +290,7 @@ body {
 														class="form-control" placeholder="Chalan No"
 														data-rule-required="true" />
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">Challan Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="chalan_date"
@@ -302,7 +307,7 @@ body {
 														class="form-control" placeholder="Bill No"
 														data-rule-required="true" />
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">Bill Date</div>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="bill_date"
@@ -318,14 +323,14 @@ body {
 													<select name="po_list" id="po_list"
 														class="form-control chosen" placeholder="Group"
 														data-rule-required="true" multiple="multiple">
-														
+
 														<c:if test="${poId!=0}">
-														<option selected value="${poId}">${poNo}</option>
+															<option selected value="${poId}">${poNo}</option>
 														</c:if>
-														
+
 													</select>
 												</div>
-<div class="col-md-1 "></div>
+												<div class="col-md-1 "></div>
 												<div class="col-md-2">
 													<input class="btn btn-info" id="getPoButton"
 														onclick="getPoDetail()" size="16" type="button"
@@ -349,21 +354,15 @@ body {
 																	<thead>
 																		<tr>
 																			<!-- <th class="col-md-1" style="text-align: center;">Select</th> -->
-																			<th class="col-sm-1" >Sr</th>
-																		
-																			<th class="col-md-1" >Item
-																				</th>
-																			<th class="col-md-1" >PO
-																				QTY</th>
-																			<th class="col-md-1" >Challan
-																				QTY</th>
-																			<th class="col-md-1" >Rec
-																				QTY</th>
-																			<th class="col-md-1" >Pend
-																				QTY</th>
-																			<th class="col-md-1" >PO
-																				No</th>
-																			<th class="col-md-1" >Status</th>
+																			<th class="col-sm-1">Sr</th>
+
+																			<th class="col-md-1">Item</th>
+																			<th class="col-md-1">PO QTY</th>
+																			<th class="col-md-1">Challan QTY</th>
+																			<th class="col-md-1">Rec QTY</th>
+																			<th class="col-md-1">Pend QTY</th>
+																			<th class="col-md-1">PO No</th>
+																			<th class="col-md-1">Status</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -377,10 +376,10 @@ body {
 													<br>
 													<div class="box-content">
 														<div class="col-md-12" style="text-align: center">
-															<input type=button class="btn btn-info"
-																value="Submit" onclick="tempSubmit()">
-																
-																 <%--  <c:choose>
+															<input type=button class="btn btn-info" value="Submit"
+																onclick="tempSubmit()">
+
+															<%--  <c:choose>
 						<c:when test="${userInfo.id==1}">
 						<input type="button" class="btn btn-info" value="Import Excel " onclick="exportExcel()">
 						</c:when>
@@ -408,18 +407,13 @@ body {
 															style="width: 100%" id="table_grid2">
 															<thead>
 																<tr>
-																	<th  style="text-align: center; width: 2%;">Sr</th>
-																	<th class="col-md-1" >Item
-																		</th>
-																	<th class="col-md-1" >PO
-																		QTY</th>
-																	<th class="col-md-1" >Rec
-																		QTY</th>
-																	<th class="col-md-1" >Pend
-																		QTY</th>
-																	<th class="col-md-1" >PO
-																		No</th>
-																	<th class="col-md-1" >Status</th>
+																	<th style="text-align: center; width: 2%;">Sr</th>
+																	<th class="col-md-1">Item</th>
+																	<th class="col-md-1">PO QTY</th>
+																	<th class="col-md-1">Rec QTY</th>
+																	<th class="col-md-1">Pend QTY</th>
+																	<th class="col-md-1">PO No</th>
+																	<th class="col-md-1">Status</th>
 																</tr>
 															</thead>
 
@@ -433,17 +427,15 @@ body {
 											</div>
 
 											<div class="form-group">
-												<label class="col-md-2">Transport
-												</label>
+												<label class="col-md-2">Transport </label>
 
 												<div class="col-md-3">
 													<input type="text" name="transport" id="transport"
 														class="form-control" placeholder="Transport"
 														data-rule-required="true" value="-" />
 												</div>
-<div class="col-md-1 "></div>
-												<label class="col-md-2">LR No
-												</label>
+												<div class="col-md-1 "></div>
+												<label class="col-md-2">LR No </label>
 												<div class="col-md-3">
 													<input type="text" name="lorry_no" id="lorry_no"
 														class="form-control" placeholder="Lorry No"
@@ -452,16 +444,14 @@ body {
 											</div>
 
 											<div class="form-group">
-												<label class="col-md-2">LR
-													Date </label>
+												<label class="col-md-2">LR Date </label>
 												<div class="col-md-3">
 													<input class="form-control date-picker" id="lorry_date"
 														size="16" type="text" name="lorry_date" value="${date}"
 														required />
 												</div>
 												<div class="col-md-1 "></div>
-												<label class="col-md-2">Remark
-												</label>
+												<label class="col-md-2">Remark </label>
 
 												<div class="col-md-3">
 													<input type="text" name="lorry_remark" id="lorry_remark"
@@ -794,19 +784,21 @@ body {
 																		'<td class="col-sm-1" style="text-align: center;"></td>')
 																		.html(
 																				itemList.itemCode)); */
-																				
-																				
-																				tr
-																				.append($(
-																						'<td class="col-md-1"  ></td>')
-																						.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
-				
-													/* 							
+
 														tr
 																.append($(
-																		'<td class="col-md-4" style="text-align: left;"></td>')
+																		'<td class="col-md-1"  ></td>')
 																		.html(
-																				itemList.itemName)); */
+																				'<div title="'+itemList.itemName+'">'
+																						+ itemList.itemCode
+																						+ '</div>'))
+
+														/* 							
+															tr
+																	.append($(
+																			'<td class="col-md-4" style="text-align: left;"></td>')
+																			.html(
+																					itemList.itemName)); */
 														tr
 																.append($(
 																		'<td class="col-md-1"  ></td>')
@@ -929,14 +921,14 @@ body {
 
 				} else { */
 
-					if (chalanQty > 0) {
-						addMrnQty(qty, poDId, chalanQty);
+				if (chalanQty > 0) {
+					addMrnQty(qty, poDId, chalanQty);
 
-					} else {
-						document.getElementById("recQty" + poDId + itemId).value = 0;
-						alert("Please Enter Valid Chalan Quantity");
-					}
-					//getPoDetail(qty, poDId);
+				} else {
+					document.getElementById("recQty" + poDId + itemId).value = 0;
+					alert("Please Enter Valid Chalan Quantity");
+				}
+				//getPoDetail(qty, poDId);
 
 				//}
 
@@ -989,15 +981,18 @@ body {
 															 */
 
 															tr
-															.append($(
-																	'<td class="col-md-1" ></td>')
-																	.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
-
-														/* 	tr
 																	.append($(
-																			'<td class="col-md-4" style="text-align: left;"></td>')
+																			'<td class="col-md-1" ></td>')
 																			.html(
-																					itemList.itemName)); */
+																					'<div title="'+itemList.itemName+'">'
+																							+ itemList.itemCode
+																							+ '</div>'))
+
+															/* 	tr
+																		.append($(
+																				'<td class="col-md-4" style="text-align: left;"></td>')
+																				.html(
+																						itemList.itemName)); */
 															tr
 																	.append($(
 																			'<td class="col-md-1" ></td>')
@@ -1111,8 +1106,7 @@ body {
 				if (grn_type == null || grn_type == "") {
 					alert("Please Select Grn Type");
 					isValid = false;
-				}
-				else if (vendor_id == null || vendor_id == "") {
+				} else if (vendor_id == null || vendor_id == "") {
 					alert("Please Select Vendor Type");
 					isValid = false;
 				}
@@ -1120,8 +1114,7 @@ body {
 				else if (grn_no == null || grn_no == "") {
 					alert("Please Select Grn No");
 					isValid = false;
-				}
-				else if (grn_date == null || grn_date == "") {
+				} else if (grn_date == null || grn_date == "") {
 					alert("Please Select Grn Date");
 					isValid = false;
 				}
@@ -1129,8 +1122,7 @@ body {
 				else if (gate_entry_no == null || gate_entry_no == "") {
 					alert("Please Select Gate Entry No");
 					isValid = false;
-				}
-				else if (gate_entry_date == null || gate_entry_date == "") {
+				} else if (gate_entry_date == null || gate_entry_date == "") {
 					alert("Please Select Gate Entry Date");
 					isValid = false;
 				}
@@ -1143,8 +1135,7 @@ body {
 				else if (chalan_date == null || chalan_date == "") {
 					alert("Please Select Chalan Date");
 					isValid = false;
-				}
-				else if (bill_no == null || bill_no == "") {
+				} else if (bill_no == null || bill_no == "") {
 					alert("Please Select Bill No");
 					isValid = false;
 				}
@@ -1157,8 +1148,7 @@ body {
 				else if (lorry_date == null || lorry_date == "") {
 					alert("Please Select Lorry Date");
 					isValid = false;
-				}
-				else if (lorry_no == null || lorry_no == "") {
+				} else if (lorry_no == null || lorry_no == "") {
 					alert("Please Select Lorry No");
 					isValid = false;
 				}
@@ -1167,8 +1157,7 @@ body {
 				else if (lorry_remark == null || lorry_remark == "") {
 					alert("Please Select Lorry Remark");
 					isValid = false;
-				}
-				else if (transport == null || transport == "") {
+				} else if (transport == null || transport == "") {
 					alert("Please Select Transport");
 					isValid = false;
 				}
@@ -1301,11 +1290,14 @@ body {
 																		.html(
 																				key + 1));
 
-																						tr
-																						.append($(
-																								'<td class="col-md-1" ></td>')
-																								.html('<div title="'+itemList.itemName+'">'+itemList.itemCode+'</div>'))
-						
+														tr
+																.append($(
+																		'<td class="col-md-1" ></td>')
+																		.html(
+																				'<div title="'+itemList.itemName+'">'
+																						+ itemList.itemCode
+																						+ '</div>'))
+
 														/* tr
 																.append($(
 																		'<td class="col-md-4" style="text-align: center;"></td>')
@@ -1401,47 +1393,46 @@ body {
 								});
 			}
 		</script>
-		
+
 		<script type="text/javascript">
-		function callToInvoice() {
-			var poType=${poType};
-			//alert(poType);
-			if(poType!=0){
-				getInvoiceNo();
+			function callToInvoice() {
+				var poType = $
+				{
+					poType
+				}
+				;
+				//alert(poType);
+				if (poType != 0) {
+					getInvoiceNo();
+				}
 			}
-		}
 		</script>
 		<script>
-function on() {
-    document.getElementById("overlay2").style.display = "block";
-}
+			function on() {
+				document.getElementById("overlay2").style.display = "block";
+			}
 
-function off() {
-    document.getElementById("overlay2").style.display = "none";
-}
+			function off() {
+				document.getElementById("overlay2").style.display = "none";
+			}
 
-function exportExcel()
-{
-	  
-	  $
-		.getJSON(
-				'${exportExcelforMrn}',
+			function exportExcel() {
+
+				$.getJSON('${exportExcelforMrn}',
 
 				{
-					 
-					 
+
 					ajax : 'true'
 
-				},
-				function(data) {
-					 //alert("adf");
-					  if (data == "") {
+				}, function(data) {
+					//alert("adf");
+					if (data == "") {
 						alert("No records found !!");
 
 					}
-					 
-					  addMrnQty(0, 0, 0);
-				  /* $.each(
+
+					addMrnQty(0, 0, 0);
+					/* $.each(
 								data,
 								function(key, itemList) {
 								//alert(itemList.indDetailId);
@@ -1459,18 +1450,16 @@ function exportExcel()
 									}
 								  	
 								})   */
-								
-							 
-					
-				});
-}
 
-$(document).keypress(function (e) {
-    if (e.which == 13) {
-    	insertMrn();
-    }
-});
-</script>
+				});
+			}
+
+			$(document).keypress(function(e) {
+				if (e.which == 13) {
+					insertMrn();
+				}
+			});
+		</script>
 </body>
 </html>
 

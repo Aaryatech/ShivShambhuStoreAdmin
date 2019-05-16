@@ -132,6 +132,12 @@ public class OpeningUtilityController {
 			int catId = Integer.parseInt(request.getParameter("catId"));
 
 			String indNo = request.getParameter("indent_no");
+			String chalan_no = request.getParameter("chalan_no");
+			String chalan_date = request.getParameter("chalan_date");
+			String bill_no = request.getParameter("bill_no");
+			String bill_date = request.getParameter("bill_date");
+			String transport = request.getParameter("transport");
+			String lorry_remark = request.getParameter("lorry_remark");
 
 			int indType = Integer.parseInt(request.getParameter("indent_type"));
 
@@ -268,11 +274,15 @@ public class OpeningUtilityController {
 						float taxValue = 0;
 
 						MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-						map = new LinkedMultiValueMap<String, Object>();
-						map.add("name", "sameState");
-						System.out.println("map " + map);
-						SettingValue settingValue = rest.postForObject(Constants.url + "/getSettingValue", map,
-								SettingValue.class);
+						/*
+						 * map = new LinkedMultiValueMap<String, Object>(); map.add("name",
+						 * "sameState");
+						 */
+						// System.out.println("map " + map);
+						/*
+						 * SettingValue settingValue = rest.postForObject(Constants.url +
+						 * "/getSettingValue", map, SettingValue.class);
+						 */
 
 						/*
 						 * if(intendDetailList.get(0).getStateCode().equals(settingValue.getValue())) {
@@ -454,11 +464,11 @@ public class OpeningUtilityController {
 								// ----------------------------Inv No---------------------------------
 								List<MrnDetail> mrnDetailList = new ArrayList<MrnDetail>();
 
-								mrnHeader.setBillDate(DateConvertor.convertToYMD(indDate));
-								mrnHeader.setBillNo("");
+								mrnHeader.setBillDate(DateConvertor.convertToYMD(bill_date));
+								mrnHeader.setBillNo(bill_no);
 								mrnHeader.setDelStatus(Constants.delStatus);
-								mrnHeader.setDocDate(DateConvertor.convertToYMD(indDate));
-								mrnHeader.setDocNo("");
+								mrnHeader.setDocDate(DateConvertor.convertToYMD(chalan_date));
+								mrnHeader.setDocNo(chalan_no);
 								mrnHeader.setGateEntryDate(DateConvertor.convertToYMD(indDate));
 								mrnHeader.setGateEntryNo("");
 								mrnHeader.setLrDate(DateConvertor.convertToYMD(indDate));
@@ -467,9 +477,9 @@ public class OpeningUtilityController {
 
 								mrnHeader.setMrnStatus(4);
 								mrnHeader.setMrnType(indType);
-								mrnHeader.setRemark1("");
+								mrnHeader.setRemark1(lorry_remark);
 								mrnHeader.setRemark2("def");
-								mrnHeader.setTransport("");
+								mrnHeader.setTransport(transport);
 								mrnHeader.setUserId(1);
 								mrnHeader.setVendorId(vendId);
 
